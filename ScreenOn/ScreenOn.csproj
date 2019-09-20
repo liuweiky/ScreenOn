@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6362BFA8-D201-44B0-ADD0-A3691F5BB369}</ProjectGuid>
+    <ProjectGuid>{4FA49E7C-5B86-4204-854C-DEC2FC13339A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ScreenOn</RootNamespace>
     <AssemblyName>ScreenOn</AssemblyName>
@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
