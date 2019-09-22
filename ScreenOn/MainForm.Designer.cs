@@ -1,6 +1,6 @@
 ﻿namespace ScreenOn
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -35,6 +35,8 @@
             this.mStartButton = new System.Windows.Forms.Button();
             this.mStopButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.mBackgroundButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mTimeCounter)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +44,7 @@
             // mMonitorCheckBox
             // 
             this.mMonitorCheckBox.AutoSize = true;
-            this.mMonitorCheckBox.Location = new System.Drawing.Point(12, 32);
+            this.mMonitorCheckBox.Location = new System.Drawing.Point(6, 22);
             this.mMonitorCheckBox.Name = "mMonitorCheckBox";
             this.mMonitorCheckBox.Size = new System.Drawing.Size(96, 16);
             this.mMonitorCheckBox.TabIndex = 0;
@@ -52,7 +54,7 @@
             // mAwakeCheckBox
             // 
             this.mAwakeCheckBox.AutoSize = true;
-            this.mAwakeCheckBox.Location = new System.Drawing.Point(12, 68);
+            this.mAwakeCheckBox.Location = new System.Drawing.Point(6, 58);
             this.mAwakeCheckBox.Name = "mAwakeCheckBox";
             this.mAwakeCheckBox.Size = new System.Drawing.Size(132, 16);
             this.mAwakeCheckBox.TabIndex = 1;
@@ -62,22 +64,27 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 103);
+            this.label1.Location = new System.Drawing.Point(4, 93);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 12);
+            this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 3;
-            this.label1.Text = "定时（分）：";
+            this.label1.Text = "定时(分):";
             // 
             // mTimeCounter
             // 
-            this.mTimeCounter.Location = new System.Drawing.Point(74, 98);
+            this.mTimeCounter.Location = new System.Drawing.Point(68, 88);
+            this.mTimeCounter.Maximum = new decimal(new int[] {
+            21600,
+            0,
+            0,
+            0});
             this.mTimeCounter.Name = "mTimeCounter";
-            this.mTimeCounter.Size = new System.Drawing.Size(88, 21);
+            this.mTimeCounter.Size = new System.Drawing.Size(67, 21);
             this.mTimeCounter.TabIndex = 4;
             // 
             // mStartButton
             // 
-            this.mStartButton.Location = new System.Drawing.Point(201, 44);
+            this.mStartButton.Location = new System.Drawing.Point(175, 34);
             this.mStartButton.Name = "mStartButton";
             this.mStartButton.Size = new System.Drawing.Size(75, 23);
             this.mStartButton.TabIndex = 5;
@@ -87,7 +94,7 @@
             // 
             // mStopButton
             // 
-            this.mStopButton.Location = new System.Drawing.Point(201, 95);
+            this.mStopButton.Location = new System.Drawing.Point(175, 77);
             this.mStopButton.Name = "mStopButton";
             this.mStopButton.Size = new System.Drawing.Size(75, 23);
             this.mStopButton.TabIndex = 6;
@@ -97,29 +104,51 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.mMonitorCheckBox);
             this.groupBox1.Controls.Add(this.mAwakeCheckBox);
             this.groupBox1.Controls.Add(this.mTimeCounter);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(183, 133);
+            this.groupBox1.Size = new System.Drawing.Size(157, 143);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "设置";
             // 
-            // Form1
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.label2.Location = new System.Drawing.Point(4, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(131, 12);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "定时设为0表示一直保持";
+            // 
+            // mBackgroundButton
+            // 
+            this.mBackgroundButton.Location = new System.Drawing.Point(175, 120);
+            this.mBackgroundButton.Name = "mBackgroundButton";
+            this.mBackgroundButton.Size = new System.Drawing.Size(75, 23);
+            this.mBackgroundButton.TabIndex = 8;
+            this.mBackgroundButton.Text = "后台运行";
+            this.mBackgroundButton.UseVisualStyleBackColor = true;
+            this.mBackgroundButton.Click += new System.EventHandler(this.MBackgroundButton_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 157);
+            this.ClientSize = new System.Drawing.Size(262, 167);
+            this.Controls.Add(this.mBackgroundButton);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.mStopButton);
             this.Controls.Add(this.mStartButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "ScreenOn";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             ((System.ComponentModel.ISupportInitialize)(this.mTimeCounter)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -137,6 +166,8 @@
         private System.Windows.Forms.Button mStartButton;
         private System.Windows.Forms.Button mStopButton;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button mBackgroundButton;
     }
 }
 

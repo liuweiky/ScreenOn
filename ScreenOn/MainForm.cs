@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace ScreenOn
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         [DllImport("kernel32.dll")]
         static extern uint SetThreadExecutionState(uint esFlags);
@@ -21,10 +21,18 @@ namespace ScreenOn
         const uint ES_CONTINUOUS = 0x80000000;
 
         Thread mDaemonThread;
+        System.Timers.Timer mTimer;
+        long mRemainSec;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
+
+            int x = (System.Windows.Forms.SystemInformation.WorkingArea.Width - this.Size.Width) / 2;
+            int y = (System.Windows.Forms.SystemInformation.WorkingArea.Height - this.Size.Height) / 2;
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = (Point)new Size(x, y);
+
             this.Resize += Form_Resize;
             mStopButton.Enabled = false;
 
@@ -38,6 +46,12 @@ namespace ScreenOn
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
 
             //mDaemonThread = new Thread(HandleAction);
+
+            mTimer = new System.Timers.Timer();
+            mTimer.Elapsed += new System.Timers.ElapsedEventHandler(HandleTimer);
+            mTimer.Interval = 1000;
+            mTimer.Enabled = false;
+            mTimer.AutoReset = true;
         }
 
         private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
@@ -46,6 +60,23 @@ namespace ScreenOn
             this.WindowState = FormWindowState.Normal;
         }
         
+        private void HandleTimer(object source, System.Timers.ElapsedEventArgs e)
+        {
+            mRemainSec--;
+            if (mRemainSec < 0)
+                return;
+            Action action = RefreshButton;
+            Invoke(action);
+        }
+
+        private void RefreshButton()
+        {
+            long hour = mRemainSec / 3600;
+            long minute = (mRemainSec / 60) % 60;
+            long second = mRemainSec % 60;
+            mStartButton.Text = String.Format("{0:D2}:{1:D2}:{2:D2}", hour, minute, second);
+        }
+
         private void HandleAction()
         {
             SetThreadExecutionState(ES_CONTINUOUS);
@@ -77,14 +108,16 @@ namespace ScreenOn
 
             SetThreadExecutionState(ES_CONTINUOUS);
 
-            Action action = RefreshButton;
+            Action action = SwitchButtonState;
             Invoke(action);
         }
 
-        private void RefreshButton()
+        private void SwitchButtonState()
         {
             mStopButton.Enabled = false;
             mStartButton.Enabled = true;
+            mTimer.Enabled = false;
+            mStartButton.Text = "开始";
         }
 
         private void AbortThread()
@@ -95,6 +128,8 @@ namespace ScreenOn
                 mDaemonThread.DisableComObjectEagerCleanup();
                 mDaemonThread = null;
             }
+            mTimer.Enabled = false;
+            mStartButton.Text = "开始";
         }
 
         private void MStartButton_Click(object sender, EventArgs e)
@@ -104,6 +139,16 @@ namespace ScreenOn
             mDaemonThread.Start();
             mStopButton.Enabled = true;
             mStartButton.Enabled = false;
+
+            if (mTimeCounter.Value != 0)
+            {
+                mRemainSec = (long)mTimeCounter.Value * 60;
+                long hour = mRemainSec / 3600;
+                long minute = (mRemainSec / 60) % 60;
+                long second = mRemainSec % 60;
+                mStartButton.Text = String.Format("{0:D2}:{1:D2}:{2:D2}", hour, minute, second);
+                mTimer.Enabled = true;
+            }
         }
 
         private void MStopButton_Click(object sender, EventArgs e)
@@ -124,6 +169,11 @@ namespace ScreenOn
             {
                 this.Hide();
             }
+        }
+
+        private void MBackgroundButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
 }
