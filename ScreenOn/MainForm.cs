@@ -41,7 +41,7 @@ namespace ScreenOn
             notifyIcon.Text = "Screen On";
             notifyIcon.BalloonTipText = "Screen On";
             notifyIcon.ShowBalloonTip(1000);
-            notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
+            notifyIcon.Icon = this.Icon;
 
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
 
